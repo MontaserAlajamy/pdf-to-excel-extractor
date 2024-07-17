@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Table Extractor</title>
+</head>
+<body>
+    <h1>PDF Table Extractor</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf">
+        <select name="output_format">
+            <option value="xlsx">Excel (.xlsx)</option>
+            <option value="csv">CSV (.csv)</option>
+        </select>
+        <select name="llm_choice">
+            <option value="No Refinement">No Refinement</option>
+            <option value="Groq API">Groq API</option>
+        </select>
+        <input type="text" name="api_key" placeholder="Groq API Key (if applicable)">
+        <input type="submit" value="Extract Tables">
+    </form>
+</body>
+</html>
