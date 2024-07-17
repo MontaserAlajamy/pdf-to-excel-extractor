@@ -4,21 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Table Extractor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="file"],
+        select,
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        .file-input-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .file-input-wrapper .file-input-button {
+            background-color: #95a5a6;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        #file-name {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>PDF Table Extractor</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".pdf">
-        <select name="output_format">
-            <option value="xlsx">Excel (.xlsx)</option>
-            <option value="csv">CSV (.csv)</option>
-        </select>
-        <select name="llm_choice">
-            <option value="No Refinement">No Refinement</option>
-            <option value="Groq API">Groq API</option>
-        </select>
-        <input type="text" name="api_key" placeholder="Groq API Key (if applicable)">
-        <input type="submit" value="Extract Tables">
-    </form>
+    <div class="container">
+        <h1>PDF Table Extractor</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <label for="file">Choose PDF File:</label>
+                <div class="file-input-wrapper">
+                    <span class="file-input-button">Select File</span>
+                    <input type="file" id="file" name="file" accept=".pdf">
+                </div>
+                <span id="file-name"></span>
+            </div>
+            <div>
+                <label for="output_format">Output Format:</label>
+                <select id="output_format" name="output_format">
+                    <option value="xlsx">Excel (.xlsx)</option>
+                    <option value="csv">CSV (.csv)</option>
+                </select>
+            </div>
+            <div>
+                <label for="llm_choice">Refinement Option:</label>
+                <select id="llm_choice" name="llm_choice">
+                    <option value="No Refinement">No Refinement</option>
+                    <option value="Groq API">Groq API</option>
+                </select>
+            </div>
+            <div id="api_key_container" style="display: none;">
+                <label for="api_key">Groq API Key:</label>
+                <input type="text" id="api_key" name="api_key" placeholder="Enter your Groq API Key">
+            </div>
+            <input type="submit" value="Extract Tables">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('file').addEventListener('change', function(e) {
+            var fileName = e.target.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        });
+
+        document.getElementById('llm_choice').addEventListener('change', function(e) {
+            var apiKeyContainer = document.getElementById('api_key_container');
+            apiKeyContainer.style.display = e.target.value === 'Groq API' ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
