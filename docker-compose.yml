@@ -9,3 +9,4 @@ services:
       - ./app:/app
     environment:
       - FLASK_ENV=development
+
