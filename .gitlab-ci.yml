@@ -24,6 +24,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - ssh user@server "docker pull $CONTAINER_RELEASE_IMAGE && docker stop flask_app || true && docker rm flask_app || true && docker run -d --name flask_app -p 80:5000 $CONTAINER_RELEASE_IMAGE"
+    - apt-get update && apt-get install -y sshpass
+    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no user@192.168.30.229 "docker pull $CONTAINER_RELEASE_IMAGE && docker stop flask_app || true && docker rm flask_app || true && docker run -d --name flask_app -p 80:5000 $CONTAINER_RELEASE_IMAGE"
   only:
     - main
